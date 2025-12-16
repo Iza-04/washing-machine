@@ -36,3 +36,58 @@
     transform: rotate(360deg);
   }
 }
+
+.drum {
+  width: 120px;
+  height: 120px;
+  margin: 20px auto;
+  border: 8px solid #555;
+  border-radius: 50%;
+  position: relative;
+}
+
+.drum::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: #555;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spin {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .blocks {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .block {
+    width: 90%;
+    margin-bottom: 20px;
+  }
+
+  .machine {
+    padding: 10px;
+  }
+
+  button {
+    width: 100%;
+  }
+}
