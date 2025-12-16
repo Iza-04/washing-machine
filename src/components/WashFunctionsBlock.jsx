@@ -27,6 +27,7 @@ export default function WashFunctionsBlock() {
 
     if (timeLeft === 0) {
       setIsRunning(false);
+      finishSound.play();
       return;
     }
 
@@ -47,24 +48,54 @@ export default function WashFunctionsBlock() {
     return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
+  const finishSound = new Audio("/beep.mp3");
+
+  const [doorOpen, setDoorOpen] = useState(false);
+
+  const toggleDoor = () => {
+    if (isRunning) return;
+    setDoorOpen((prev) => !prev);
+  };
+
+  const [waterLevel, setWaterLevel] = useState(0);
+
   return (
-    <div className="machine">
-      <div className="display">
-        <h2>{washingPrograms[programIndex].name}</h2>
-        <div className="time">{formatTime(timeLeft)}</div>
+    <div className="washer">
+      <h1 className="title">Washing Machine</h1>
+
+      <div className="panel">
+        {/* ЛЮК */}
+        <div
+          className={`block door ${doorOpen ? "open" : ""}`}
+          onClick={toggleDoor}
+        >
+          <div className="door-circle" />
+          <span>{doorOpen ? "Люк открыт" : "Люк закрыт"}</span>
+        </div>
+
+        {/* ТАБЛО */}
+        <div className="block display">
+          <h3>{washingPrograms[programIndex].name}</h3>
+          <div className="time">{formatTime(timeLeft)}</div>
+          <div className="water">💧 {waterLevel}%</div>
+        </div>
+
+        {/* РЕЖИМ */}
+        <div
+          className={`block knob ${isRunning ? "disabled" : ""}`}
+          onClick={nextProgram}
+          style={{ transform: `rotate(${programIndex * 60}deg)` }}
+        >
+          <div className="knob-inner" />
+          <span>Режим</span>
+        </div>
       </div>
 
-      <div
-        className={`knob ${isRunning ? "disabled" : ""}`}
-        onClick={nextProgram}
-        style={{ transform: `rotate(${programIndex * 60}deg)` }}
-      >
-        ⭕
-      </div>
+      <button className="start-btn" onClick={toggleStart}>
+        {isRunning ? "Пауза" : "Старт"}
+      </button>
 
-      <button onClick={toggleStart}>{isRunning ? "Пауза" : "Старт"}</button>
-
-      {timeLeft === 0 && <p>Wash isdone ✅</p>}
+      {timeLeft === 0 && <p className="done">Стирка завершена ✅</p>}
     </div>
   );
 }
