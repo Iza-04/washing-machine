@@ -22,7 +22,7 @@ function App() {
     return () => clearInterval(timer);
   }, [isRunning, timeLeft]);
 
-  // Таймер закончился
+  // Time stopped
   useEffect(() => {
     if (timeLeft === 0 && isRunning) {
       setIsRunning(false);
@@ -32,7 +32,7 @@ function App() {
 
   const startMachine = () => {
     if (!power || mode === "None") return;
-    setTimeLeft(10); // 10 секунд для примера
+    setTimeLeft(10); // 10 секунд
     setIsRunning(true);
   };
 
