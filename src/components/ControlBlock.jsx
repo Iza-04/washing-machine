@@ -10,14 +10,14 @@ function ControlBlock({
 }) {
   return (
     <div className="block">
-      <h2>Controls</h2>
+      <h2>Control block</h2>
 
       <button onClick={() => setPower(true)}>Power ON</button>
       <button onClick={() => setPower(false)}>Power OFF</button>
 
-      <button disabled={!power || isRunning} onClick={startMachine}>
+      {/* <button disabled={!power || isRunning} onClick={startMachine}>
         Start
-      </button>
+      </button> */}
 
       <div className="temp">
         <p>Temperature</p>

@@ -61,7 +61,7 @@ export default function WashFunctionsBlock() {
 
   return (
     <div className="washer">
-      <h1 className="title">Washing Machine</h1>
+      <h1 className="title">Samsung</h1>
 
       <div className="panel">
         {/* ЛЮК */}
