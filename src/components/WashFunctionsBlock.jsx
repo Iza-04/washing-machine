@@ -1,101 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-const washingPrograms = [
-  { name: "Fast", time: 30 },
-  { name: "Child", time: 80 },
-  { name: "Wool", time: 45 },
-  { name: "Cotton", time: 60 },
+const modes = [
+  { name: "Быстрая", time: 30 },
+  { name: "Детская", time: 60 },
+  { name: "Шерсть", time: 45 },
 ];
 
-export default function WashFunctionsBlock() {
-  const [programIndex, setProgramIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(washingPrograms[0].time * 60);
-  const [isRunning, setIsRunning] = useState(false);
+export default function WashFunctionsBlock({
+  setSelectedMode,
+  setTimeLeft,
+  isRunning,
+}) {
+  const [active, setActive] = useState(null);
 
-  const nextProgram = () => {
+  const selectMode = (mode) => {
     if (isRunning) return;
-
-    const next =
-      programIndex === washingPrograms.length - 1 ? 0 : programIndex + 1;
-
-    setProgramIndex(next);
-    setTimeLeft(washingPrograms[next].time * 60);
+    setActive(mode.name);
+    setSelectedMode(mode.name);
+    setTimeLeft(mode.time);
   };
-
-  useEffect(() => {
-    if (!isRunning) return;
-
-    if (timeLeft === 0) {
-      setIsRunning(false);
-      finishSound.play();
-      return;
-    }
-
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [isRunning, timeLeft]);
-
-  const toggleStart = () => {
-    setIsRunning((prev) => !prev);
-  };
-
-  const formatTime = (seconds) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-  };
-
-  const finishSound = new Audio("/beep.mp3");
-
-  const [doorOpen, setDoorOpen] = useState(false);
-
-  const toggleDoor = () => {
-    if (isRunning) return;
-    setDoorOpen((prev) => !prev);
-  };
-
-  const [waterLevel, setWaterLevel] = useState(0);
 
   return (
-    <div className="washer">
-      <h1 className="title">Samsung</h1>
+    <div>
+      <h3>Режимы стирки</h3>
 
-      <div className="panel">
-        {/* ЛЮК */}
-        <div
-          className={`block door ${doorOpen ? "open" : ""}`}
-          onClick={toggleDoor}
+      {modes.map((mode) => (
+        <button
+          key={mode.name}
+          className={active === mode.name ? "active" : ""}
+          onClick={() => selectMode(mode)}
         >
-          <div className="door-circle" />
-          <span>{doorOpen ? "Люк открыт" : "Люк закрыт"}</span>
-        </div>
-
-        {/* ТАБЛО */}
-        <div className="block display">
-          <h3>{washingPrograms[programIndex].name}</h3>
-          <div className="time">{formatTime(timeLeft)}</div>
-          <div className="water">💧 {waterLevel}%</div>
-        </div>
-
-        {/* РЕЖИМ */}
-        <div
-          className={`block knob ${isRunning ? "disabled" : ""}`}
-          onClick={nextProgram}
-          style={{ transform: `rotate(${programIndex * 60}deg)` }}
-        >
-          <div className="knob-inner" />
-          <span>Режим</span>
-        </div>
-      </div>
-
-      <button className="start-btn" onClick={toggleStart}>
-        {isRunning ? "Пауза" : "Старт"}
-      </button>
-
-      {timeLeft === 0 && <p className="done">Стирка завершена ✅</p>}
+          {mode.name} ({mode.time} мин)
+        </button>
+      ))}
     </div>
   );
 }

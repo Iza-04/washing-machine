@@ -109,3 +109,106 @@ body {
   font-weight: bold;
   color: #27ae60;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #e6e6e6;
+}
+
+.app {
+  text-align: center;
+}
+
+.machine {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.panel {
+  background: #fff;
+  padding: 20px;
+  width: 240px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #1976d2;
+  color: white;
+}
+
+button.active {
+  background: #2e7d32;
+}
+
+.drum {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 8px solid #444;
+  margin: 0 auto 15px;
+  position: relative;
+  overflow: hidden;
+  background: #111;
+}
+
+.water {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(#4fc3f7, #0288d1);
+  transition: height 2s ease;
+}
+
+.water.fill {
+  height: 60%;
+  animation: wave 1.5s infinite ease-in-out;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.display {
+  background: black;
+  color: #00ffcc;
+  font-size: 28px;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.door-btn.open {
+  background: #d32f2f;
+}
+
+.door-btn.closed {
+  background: #388e3c;
+}
